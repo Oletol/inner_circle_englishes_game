@@ -1,0 +1,648 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inner Circle Englishes — Cherdak</title>
+<meta name="description" content="A sorting game on pronunciation features of Inner Circle Englishes. A Cherdak project, t.me/engattic.">
+<meta name="theme-color" content="#14284A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3CradialGradient id='b' cx='50%25' cy='45%25' r='70%25'%3E%3Cstop offset='0' stop-color='%2327477A'/%3E%3Cstop offset='1' stop-color='%2314284A'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='112' fill='url(%23b)'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='26' stroke-linecap='round' stroke-linejoin='round' transform='translate(256 262) scale(0.4) translate(-597 -540)'%3E%3Cpath d='M150 432 L597 138 L1044 432'/%3E%3Cpath d='M232 380 V918 a26 26 0 0 0 26 26 H934 a26 26 0 0 0 26 -26 V380'/%3E%3Cpath d='M246 470 q20 -8 30 -30 q18 -45 50 -45 H492 q22 0 34 22 l18 32 q12 22 34 22 H932 q14 0 14 14'/%3E%3Cpath d='M276 905 H915'/%3E%3Cpath d='M484 585 L690 656 L640 690 L710 770 L675 805 L605 728 L556 792 Z'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500&family=JetBrains+Mono:wght@500;700&family=Gentium+Book+Plus:wght@400;700&display=swap" rel="stylesheet">
+<script>
+  try { var th = localStorage.getItem("cherdak-theme"); if (th) document.documentElement.dataset.theme = th; } catch (e) {}
+</script>
+<style>
+/* Layout: Cherdak navy topbar and page head, white sheet with a sticky status bar, the card pool on the left and eight accent zones on the right. Tap a card, then tap an accent; drag and drop and keys 1-8 also work. */
+:root {
+  color-scheme: light;
+  --navy-950: #0c1a33; --navy-900: #112343; --navy-800: #16305a; --navy-700: #20406f; --navy-500: #3d6199; --navy-100: #e6ecf5;
+  --paper: #f3f5f9; --card: #ffffff; --ink: #15223a; --muted: #5a6780; --line: #dbe1eb;
+  --accent: #3d6199; --accent-ink: #ffffff; --soft: #e6ecf5;
+  --good: #1f8a70; --good-bg: #e3f4ee; --warn: #b8541f; --warn-bg: #fbeee4;
+  --sel-shadow: 0 10px 24px -14px rgba(12,26,51,.55);
+  --ui: "Onest", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --read: "Literata", Georgia, "Times New Roman", serif;
+  --ipa: "Gentium Book Plus", "Charis SIL", "Doulos SIL", "Gentium Plus", "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --radius-lg: 20px; --radius: 12px; --radius-sm: 8px;
+  --top: 64px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0b1528; --card: #12203a; --ink: #e7ecf5; --muted: #9aa8c0; --line: #23365a;
+    --accent: #7fa6e0; --accent-ink: #0b1528; --soft: #1a2c4d;
+    --good: #5fd1ae; --good-bg: #123a33; --warn: #f0a070; --warn-bg: #3d2618;
+    --sel-shadow: 0 10px 24px -12px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0b1528; --card: #12203a; --ink: #e7ecf5; --muted: #9aa8c0; --line: #23365a;
+  --accent: #7fa6e0; --accent-ink: #0b1528; --soft: #1a2c4d;
+  --good: #5fd1ae; --good-bg: #123a33; --warn: #f0a070; --warn-bg: #3d2618;
+  --sel-shadow: 0 10px 24px -12px rgba(0,0,0,.7);
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.55 var(--ui); }
+body.has-bar { padding-bottom: 210px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1280px; margin: 0 auto; }
+.gut { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.skip { position: absolute; left: 12px; top: -60px; z-index: 50; background: #fff; color: var(--navy-950); padding: 10px 16px; border-radius: 999px; font-weight: 600; text-decoration: none; }
+.skip:focus { top: 12px; }
+.ipa { font-family: var(--ipa); }
+
+/* Topbar */
+.topbar { position: sticky; top: 0; z-index: 30; background: var(--navy-900); color: #fff; }
+.topbar .wrap { display: flex; align-items: center; gap: 12px; height: var(--top); }
+.brand { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 700; font-size: 19px; }
+.brand svg { width: 40px; height: 40px; border-radius: 10px; flex: none; }
+.spacer { flex: 1; }
+.iconbtn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,.22); background: transparent; color: #fff; display: grid; place-items: center; }
+.iconbtn:hover { background: rgba(255,255,255,.12); }
+.iconbtn svg { width: 18px; height: 18px; }
+
+/* Head */
+.head { background: radial-gradient(120% 140% at 50% 0%, #27477a 0%, var(--navy-900) 60%, var(--navy-950) 100%); color: #fff; padding-block: 44px 112px; }
+.eyebrow { font: 600 13px/1 var(--ui); letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.7); margin-bottom: 14px; }
+.head h1 { font-size: clamp(30px, 4.6vw, 52px); font-weight: 700; letter-spacing: -0.015em; max-width: 20ch; line-height: 1.1; }
+.head p { margin-top: 14px; font-size: 18px; color: rgba(255,255,255,.78); max-width: 62ch; }
+.steps { display: flex; flex-wrap: wrap; gap: 10px 22px; margin: 22px 0 0; padding: 0; list-style: none; counter-reset: s; }
+.steps li { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,.88); font-size: 15px; counter-increment: s; }
+.steps li::before { content: counter(s); width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.14); font: 700 13px/1 var(--mono); }
+
+/* Sheet */
+.sheet { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 0 clamp(16px, 3vw, 32px) clamp(16px, 3vw, 32px); margin-top: -80px; box-shadow: 0 20px 40px -24px rgba(12,26,51,.35); }
+
+/* Status bar */
+.status { position: sticky; top: var(--top); z-index: 20; background: var(--card); padding: 18px 0 14px; border-bottom: 1px solid var(--line); border-radius: var(--radius-lg) var(--radius-lg) 0 0; display: grid; gap: 12px; }
+.status-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+.meter { display: grid; gap: 6px; min-width: 200px; flex: 1 1 260px; max-width: 420px; }
+.meter-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-size: 14px; color: var(--muted); }
+.meter-top b { font: 700 20px/1 var(--mono); color: var(--ink); font-variant-numeric: tabular-nums; }
+.bar { height: 6px; border-radius: 99px; background: var(--soft); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--good); border-radius: inherit; transition: width .35s ease; }
+.stat { display: grid; gap: 2px; }
+.stat span { font-size: 13px; color: var(--muted); }
+.stat b { font: 700 20px/1 var(--mono); font-variant-numeric: tabular-nums; }
+.stat.warn b { color: var(--warn); }
+.status-actions { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+
+.feedback { border-radius: var(--radius); padding: 10px 14px; font-size: 15px; background: var(--soft); color: var(--ink); display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; min-height: 44px; }
+.feedback.good { background: var(--good-bg); }
+.feedback.warn { background: var(--warn-bg); }
+.feedback .fb-label { font: 600 12px/1 var(--ui); letter-spacing: .06em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; }
+.feedback .fb-label::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--accent); }
+.feedback.good .fb-label { color: var(--good); } .feedback.good .fb-label::before { background: var(--good); }
+.feedback.warn .fb-label { color: var(--warn); } .feedback.warn .fb-label::before { background: var(--warn); }
+.feedback .fb-text { flex: 1 1 300px; }
+
+/* Buttons */
+.btn { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid transparent; font-weight: 600; font-size: 15px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+.btn svg { width: 18px; height: 18px; }
+.btn-sm { min-height: 34px; padding: 0 14px; font-size: 14px; }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+.btn-ghost:hover { background: var(--soft); }
+.btn-ghost[aria-expanded="true"] { background: var(--soft); border-color: var(--accent); }
+
+/* Help */
+.help { margin-top: 18px; background: var(--soft); border-radius: var(--radius); padding: 18px 20px; display: grid; gap: 10px; }
+.help h2 { font-size: 18px; }
+.help p { font: 400 16px/1.6 var(--read); max-width: 78ch; }
+.help ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; font-size: 15px; color: var(--muted); }
+.help li::marker { color: var(--accent); }
+.kbd { font: 600 13px/1 var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; padding: 2px 6px; background: var(--card); color: var(--ink); }
+
+/* Board */
+.board { display: grid; grid-template-columns: minmax(300px, 360px) minmax(0, 1fr); gap: 24px; margin-top: 22px; align-items: start; }
+.col-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.col-head h2 { font-size: 18px; }
+.col-head span { font-size: 14px; color: var(--muted); }
+
+.pool-wrap { position: sticky; top: calc(var(--top) + var(--status-h, 150px) + 12px); }
+.pool { list-style: none; margin: 0; padding: 4px; display: grid; gap: 8px; max-height: calc(100vh - var(--top) - var(--status-h, 150px) - 70px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+.pool-empty { border: 1.5px dashed var(--line); border-radius: var(--radius); padding: 24px; text-align: center; color: var(--muted); }
+
+.fcard { width: 100%; text-align: left; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--radius); padding: 12px 14px; display: grid; gap: 4px; position: relative; transition: border-color .15s, box-shadow .15s, transform .15s; }
+.fcard:hover { border-color: var(--accent); }
+.fcard[draggable="true"] { cursor: grab; }
+.fcard.dragging { opacity: .45; }
+.fcard .t { font-weight: 600; font-size: 15px; line-height: 1.3; padding-right: 8px; }
+.fcard .ph { justify-self: start; font: 400 17px/1.3 var(--ipa); color: var(--accent); }
+.fcard .ex { font-size: 14px; color: var(--muted); line-height: 1.4; }
+.fcard .more { display: none; }
+.fcard.selected { border-color: var(--accent); box-shadow: 0 0 0 1.5px var(--accent), var(--sel-shadow); background: var(--card); }
+.fcard.selected .more { display: grid; gap: 8px; margin-top: 6px; padding-top: 10px; border-top: 1px solid var(--line); }
+.fcard .explain { font: 400 15px/1.55 var(--read); color: var(--ink); }
+.fcard .tried { font-size: 13px; color: var(--warn); }
+.fcard .cue { font-size: 13px; color: var(--accent); font-weight: 600; }
+.fcard .tag-sel { position: absolute; top: -9px; right: 12px; background: var(--accent); color: var(--accent-ink); border-radius: 999px; padding: 2px 10px; font: 600 11px/1.5 var(--ui); letter-spacing: .06em; text-transform: uppercase; display: none; }
+.fcard.selected .tag-sel { display: block; }
+.fcard.shake { animation: shake .4s; border-color: var(--warn); }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+/* Zones */
+.zones { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.zone { border: 1.5px solid var(--line); border-radius: var(--radius); background: var(--card); display: grid; grid-template-rows: auto 1fr; min-height: 168px; transition: border-color .15s, background .15s, box-shadow .15s, transform .15s; }
+.zone-head { all: unset; box-sizing: border-box; display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; padding: 12px 14px; border-radius: var(--radius) var(--radius) 0 0; background: var(--soft); cursor: default; }
+.zone-head:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.znum { grid-row: span 2; width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; font: 700 14px/1 var(--mono); background: var(--card); color: var(--accent); border: 1px solid var(--line); align-self: center; }
+.zname { font-weight: 700; font-size: 15px; line-height: 1.25; }
+.zmeta { font-size: 13px; color: var(--muted); display: flex; gap: 8px; justify-content: space-between; }
+.zbody { padding: 10px; display: grid; gap: 6px; align-content: start; }
+.zhint { font-size: 13px; color: var(--muted); text-align: center; padding: 14px 6px; border: 1.5px dashed var(--line); border-radius: var(--radius-sm); }
+.zone.armed { border-style: dashed; border-color: var(--accent); cursor: pointer; }
+.zone.armed .zone-head { cursor: pointer; }
+.zone.armed:hover, .zone.over { background: var(--soft); border-style: solid; transform: translateY(-2px); box-shadow: var(--sel-shadow); }
+.zone.armed .zhint { border-color: var(--accent); color: var(--accent); }
+.zone.tried { opacity: .55; }
+.zone.flash-bad { animation: flashbad .5s; }
+.zone.flash-good { animation: flashgood .6s; }
+.zone.hinted { box-shadow: 0 0 0 3px var(--good); border-color: var(--good); }
+@keyframes flashbad { 0%, 100% { background: var(--card); } 30% { background: var(--warn-bg); border-color: var(--warn); } }
+@keyframes flashgood { 0%, 100% { background: var(--card); } 30% { background: var(--good-bg); border-color: var(--good); } }
+
+.chip { border: 1px solid var(--line); border-left: 3px solid var(--good); border-radius: var(--radius-sm); background: var(--card); }
+.chip summary { list-style: none; cursor: pointer; padding: 7px 10px; font-size: 14px; font-weight: 600; line-height: 1.3; display: flex; gap: 8px; align-items: baseline; }
+.chip summary::-webkit-details-marker { display: none; }
+.chip summary::after { content: ""; margin-left: auto; flex: none; width: 7px; height: 7px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg) translateY(-2px); }
+.chip[open] summary::after { transform: rotate(-135deg) translateY(-2px); }
+.chip .cbody { padding: 0 10px 10px; display: grid; gap: 6px; font-size: 14px; }
+.chip .ph { font: 400 16px/1.3 var(--ipa); color: var(--accent); }
+.chip .explain { font: 400 14px/1.5 var(--read); }
+.chip .also { color: var(--muted); font-size: 13px; }
+.chip.new { animation: pop .5s; }
+@keyframes pop { 0% { transform: scale(.94); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+
+.board.done { grid-template-columns: 1fr; }
+.board.done .pool-wrap { display: none; }
+
+/* Result */
+.result { margin-top: 22px; border: 1.5px solid var(--good); background: var(--good-bg); border-radius: var(--radius); padding: 20px 22px; display: grid; gap: 14px; }
+.result h2 { font-size: 22px; }
+.result-stats { display: flex; flex-wrap: wrap; gap: 14px 34px; }
+.result-stats .stat b { font-size: 28px; }
+.result .hard { font-size: 15px; }
+.result .hard ul { margin: 6px 0 0; padding-left: 20px; color: var(--muted); }
+.result-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* Mobile place bar */
+.placebar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--navy-900); color: #fff; padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); box-shadow: 0 -12px 30px -16px rgba(0,0,0,.6); display: none; gap: 10px; }
+.placebar .pb-top { display: flex; gap: 10px; align-items: center; }
+.placebar .pb-lbl { font: 600 12px/1 var(--ui); letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.65); }
+.placebar .pb-title { font-weight: 600; font-size: 15px; line-height: 1.3; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.placebar .pb-x { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); background: transparent; color: #fff; display: grid; place-items: center; flex: none; }
+.placebar .pb-x svg { width: 16px; height: 16px; }
+.pb-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.pb-btn { min-height: 44px; border-radius: 10px; border: 1px solid rgba(255,255,255,.22); background: rgba(255,255,255,.06); color: #fff; font-weight: 600; font-size: 13px; padding: 4px; line-height: 1.15; }
+.pb-btn:active { background: rgba(255,255,255,.18); }
+.pb-btn.tried { opacity: .4; text-decoration: line-through; }
+.pb-btn.hinted { border-color: #5fd1ae; color: #5fd1ae; }
+
+.footer { background: var(--navy-950); color: rgba(255,255,255,.7); margin-top: 40px; }
+.footer .wrap { padding-block: 24px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; font-size: 14px; }
+.tg { display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; padding: 8px 14px; font-weight: 600; }
+.tg svg { width: 18px; height: 18px; }
+
+@media (max-width: 1100px) { .zones { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .board { grid-template-columns: 1fr; }
+  .pool-wrap { position: static; }
+  .pool { max-height: 52vh; }
+  .placebar.on { display: grid; }
+  .status { position: static; padding-top: 14px; }
+  .pool-wrap { --status-h: 0px; }
+  .status-actions { margin-left: 0; }
+  .zone { min-height: 0; }
+  .zhint { padding: 8px 6px; }
+  .kbd-only { display: none; }
+}
+@media (max-width: 560px) {
+  .brand span { display: none; }
+  .head p { font-size: 16px; }
+  .steps li { font-size: 14px; }
+  .zones { gap: 8px; }
+  .zname { font-size: 14px; }
+  .znum { width: 24px; height: 24px; font-size: 12px; }
+  .zone-head { padding: 10px; gap: 2px 8px; }
+  .meter { max-width: none; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before { animation: none !important; transition: none !important; } }
+</style>
+</head><body>
+<a class="skip" href="#game">Skip to the game</a>
+
+<header class="topbar gut">
+  <div class="wrap">
+    <a class="brand" href="https://t.me/engattic" target="_blank" rel="noopener">
+      <svg viewBox="0 0 512 512" aria-hidden="true"><defs><radialGradient id="lg" cx="50%" cy="45%" r="70%"><stop offset="0" stop-color="#27477A"/><stop offset="1" stop-color="#14284A"/></radialGradient></defs><rect width="512" height="512" rx="112" fill="url(#lg)"/><g fill="none" stroke="#fff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" transform="translate(256 262) scale(0.4) translate(-597 -540)"><path d="M150 432 L597 138 L1044 432"/><path d="M232 380 V918 a26 26 0 0 0 26 26 H934 a26 26 0 0 0 26 -26 V380"/><path d="M246 470 q20 -8 30 -30 q18 -45 50 -45 H492 q22 0 34 22 l18 32 q12 22 34 22 H932 q14 0 14 14"/><path d="M276 905 H915"/><path d="M484 585 L690 656 L640 690 L710 770 L675 805 L605 728 L556 792 Z"/></g></svg>
+      <span>Cherdak</span>
+    </a>
+    <div class="spacer"></div>
+    <button class="iconbtn" id="themeBtn" type="button" aria-label="Switch colour theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+</header>
+
+<section class="head gut">
+  <div class="wrap">
+    <div class="eyebrow">English Phonetics &middot; World Englishes</div>
+    <h1>Inner Circle Englishes</h1>
+    <p>Sort pronunciation features by accent. Some features are typical of several accents, and any of them counts as a correct answer.</p>
+    <ol class="steps">
+      <li>Choose a feature card</li>
+      <li>Read the description</li>
+      <li>Place it in an accent where it is typical</li>
+    </ol>
+  </div>
+</section>
+
+<main class="gut" id="game" tabindex="-1">
+  <div class="wrap">
+    <div class="sheet">
+      <div class="status" id="status">
+        <div class="status-row">
+          <div class="meter">
+            <div class="meter-top"><span>Features sorted</span><span><b id="scoreN">0</b> / <span id="totalN">0</span></span></div>
+            <div class="bar" role="progressbar" aria-label="Features sorted" id="barWrap" aria-valuemin="0"><i id="bar"></i></div>
+          </div>
+          <div class="stat"><span>First try</span><b id="firstN">0</b></div>
+          <div class="stat warn"><span>Mistakes</span><b id="missN">0</b></div>
+          <div class="status-actions">
+            <button class="btn btn-ghost btn-sm" id="helpBtn" type="button" aria-expanded="false" aria-controls="help">How to read the cards</button>
+            <button class="btn btn-ghost btn-sm" id="newBtn" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+              New game
+            </button>
+          </div>
+        </div>
+        <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+      </div>
+
+      <section class="help" id="help" hidden aria-labelledby="helpTitle">
+        <h2 id="helpTitle">How to read the cards</h2>
+        <p>Words in capitals (TRAP, BATH, GOAT, FACE and others) are J. Wells’s lexical sets. Each one names the vowel of that keyword and of all words with the same vowel, e.g. GOAT is the vowel of <i>go, boat, know</i>. Each card compares the accent with RP (or with GA). Transcriptions in square brackets show the typical pronunciation.</p>
+        <ul>
+          <li>Click or tap a card to open its description, then click an accent.</li>
+          <li class="kbd-only">With a mouse, you can also drag the card onto an accent.</li>
+          <li class="kbd-only">Keyboard: <span class="kbd">Tab</span> to a card, <span class="kbd">Enter</span> to choose it, <span class="kbd">1</span>–<span class="kbd">8</span> to place it, <span class="kbd">Esc</span> to cancel.</li>
+          <li>After two mistakes on the same card you can ask for a hint.</li>
+          <li>Sorted cards stay in the accent zones. Open any of them to review the explanation. The game is saved in this browser.</li>
+        </ul>
+      </section>
+
+      <div class="result" id="result" hidden></div>
+
+      <div class="board">
+        <section class="pool-wrap" aria-labelledby="poolTitle">
+          <div class="col-head"><h2 id="poolTitle">Feature cards</h2><span id="leftN"></span></div>
+          <ul class="pool" id="pool"></ul>
+        </section>
+        <section aria-labelledby="zonesTitle">
+          <div class="col-head"><h2 id="zonesTitle">Accents</h2><span>Inner Circle</span></div>
+          <div class="zones" id="zones"></div>
+        </section>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="placebar" id="placebar" aria-label="Place the selected card">
+  <div class="pb-top">
+    <div style="flex:1;min-width:0;display:grid;gap:4px">
+      <span class="pb-lbl">Place in</span>
+      <span class="pb-title" id="pbTitle"></span>
+    </div>
+    <button class="pb-x" id="pbClose" type="button" aria-label="Cancel selection">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="pb-grid" id="pbGrid"></div>
+</div>
+
+<footer class="footer gut">
+  <div class="wrap">
+    <span>A learning project of the Cherdak channel.</span>
+    <a class="tg" href="https://t.me/engattic" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 4.5 2.5 11.8l6.2 2.1 2.3 6.6 3.4-4.4 5 3.7z"/><path d="m8.7 13.9 9.3-6.6"/></svg>
+      @engattic
+    </a>
+  </div>
+</footer>
+
+<script>
+const ACCENTS = [
+  { id: "rp",         name: "Received Pronunciation", short: "RP",         meta: "England" },
+  { id: "cockney",    name: "Cockney",                short: "Cockney",    meta: "London" },
+  { id: "genam",      name: "General American",       short: "GenAm",      meta: "USA" },
+  { id: "scottish",   name: "Scottish English",       short: "Scottish",   meta: "Scotland" },
+  { id: "australian", name: "Australian English",     short: "Australian", meta: "Australia" },
+  { id: "canadian",   name: "Canadian English",       short: "Canadian",   meta: "Canada" },
+  { id: "irish",      name: "Irish English",          short: "Irish",      meta: "Hiberno-English" },
+  { id: "nz",         name: "New Zealand English",    short: "NZ",         meta: "New Zealand" }
+];
+
+const featuresData = [
+    // RP and other non-rhotic accents
+    { id: "c1", title: "Broad A (TRAP–BATH split)", phoneme: "[ɑː] / [ɐː]", example: "long open vowel in 'bath', 'path', 'laugh'", explain: "BATH = words like bath, path, laugh. They have a different vowel from cat: RP cat [æ], bath [ɑː]. GA has [æ] in both.", accents: ["rp", "cockney", "australian", "nz"] },
+    { id: "c2", title: "Non-rhoticity", phoneme: "[∅]", example: "no /r/ before a consonant or pause: 'farm', 'car'", explain: "/r/ is pronounced only before a vowel. RP farm [fɑːm], GA [fɑrm].", accents: ["rp", "cockney", "australian", "nz"] },
+    { id: "c3", title: "Intrusive /r/", phoneme: "[r]", example: "'law and order', 'idea of'", explain: "An /r/ that is not in the spelling appears between two vowels: law and order [ˈlɔːr ən ˈɔːdə].", accents: ["rp", "cockney", "australian", "nz"] },
+    { id: "c5", title: "Linking /r/", phoneme: "[r]", example: "'far away', 'four apples'", explain: "A final /r/, silent before a consonant, is pronounced before a vowel: far [fɑː], but far away [ˈfɑːr əˈweɪ].", accents: ["rp", "cockney", "australian", "nz"] },
+    { id: "c8", title: "No happY-tensing", phoneme: "[ɪ]", example: "lax final vowel in 'happy', 'city' (traditional RP)", explain: "happY = the final vowel of happy, city. Traditional RP has short lax [ɪ]; most modern accents have tense [i].", accents: ["rp"] },
+    { id: "c40", title: "Centring diphthong in NEAR", phoneme: "[ɪə]", example: "in 'here', 'beard'", explain: "NEAR = the vowel of here, beard. A diphthong gliding to [ə] where rhotic accents have /r/: RP [hɪə], GA [hɪr].", accents: ["rp", "cockney", "australian", "nz"] },
+
+    // Cockney
+    { id: "c9", title: "TH-fronting", phoneme: "[f] / [v]", example: "'think' [fɪŋk], 'weather' [ˈwevə]", explain: "/θ/ and /ð/ become labio-dental [f] and [v]. RP think [θɪŋk], Cockney [fɪŋk].", accents: ["cockney"] },
+    { id: "c10", title: "T-glottalling between vowels", phoneme: "[ʔ]", example: "'water', 'butter'", explain: "/t/ between vowels is replaced by a glottal stop. RP water [ˈwɔːtə], Cockney [ˈwɔːʔə].", accents: ["cockney", "scottish"] },
+    { id: "c11", title: "L-vocalization", phoneme: "[ʊ] / [w]", example: "'milk', 'bottle'", explain: "Dark /l/ before a consonant or at the end of a word turns into a vowel like [ʊ]. RP milk [mɪɫk], Cockney [mɪʊk].", accents: ["cockney", "australian", "nz"] },
+    { id: "c12", title: "H-dropping", phoneme: "[∅]", example: "'house', 'hand'", explain: "/h/ at the start of a word is not pronounced: house [aʊs].", accents: ["cockney"] },
+    { id: "c13", title: "MOUTH with fronted onset", phoneme: "[æː] / [æə]", example: "'now', 'out' (Diphthong Shift)", explain: "MOUTH = the vowel of now, out. RP [aʊ]; here the start moves to the front and the glide weakens: now [næː].", accents: ["cockney"] },
+    { id: "c14", title: "FACE with open onset", phoneme: "[æɪ] / [aɪ]", example: "'rain' close to 'Rhine'", explain: "FACE = the vowel of day, rain. RP starts mid [eɪ]; here the start is lower, more open: [æɪ ~ aɪ].", accents: ["cockney", "australian", "nz"] },
+    { id: "c15", title: "GOAT with open fronted onset", phoneme: "[æʊ] / [ʌʊ]", example: "'boat', 'soaked' (Diphthong Shift)", explain: "GOAT = the vowel of go, boat. RP [əʊ] starts in the centre; here the start is open and front: go [ɡæʊ].", accents: ["cockney"] },
+    { id: "c16b", title: "PRICE with back onset", phoneme: "[ɑɪ] / [ɑe]", example: "'time', 'right'", explain: "PRICE = the vowel of time, right. RP starts front [aɪ]; here the start is back: time [tɑɪm].", accents: ["cockney", "australian", "nz"] },
+    { id: "c34", title: "Diphthongal FLEECE", phoneme: "[əi] / [ɪi]", example: "'see', 'teacher'", explain: "FLEECE = the vowel of see, tea. RP has a long, nearly pure [iː]; here it glides from a central start: see [səi].", accents: ["cockney", "australian", "nz"] },
+
+    // General American and Canadian
+    { id: "c17", title: "Rhoticity", phoneme: "[ɹ] / [ɚ] / [ɾ]", example: "/r/ after a vowel: 'farm', 'bird'", explain: "/r/ is pronounced after vowels too: farm [fɑrm], bird [bɝd]. RP has no /r/ here.", accents: ["genam", "canadian", "irish", "scottish"] },
+    { id: "c18", title: "T-flapping", phoneme: "[ɾ]", example: "'better', 'water'", explain: "/t/ between vowels becomes one quick voiced tap of the tongue: better [ˈbɛɾɚ]; latter and ladder may sound the same.", accents: ["genam", "canadian", "australian", "nz"] },
+    { id: "c19", title: "Flat A (no TRAP–BATH split)", phoneme: "[æ]", example: "same vowel in 'cat' and 'bath', 'glass'", explain: "No TRAP–BATH split: bath, glass have the same vowel as cat. RP bath [bɑːθ], GA [bæθ].", accents: ["genam", "canadian"] },
+    { id: "c20", title: "Yod-dropping after /t d n/", phoneme: "[∅]", example: "'tune' [tuːn], 'duke' [duːk], 'news' [nuːz]", explain: "/j/ after /t d n/ disappears. RP tune [tjuːn], GA [tuːn].", accents: ["genam", "canadian"] },
+    { id: "c22", title: "Father–bother merger", phoneme: "[ɑ]", example: "same vowel in 'father' and 'bother'", explain: "father and bother have the same vowel [ɑ]. RP: [ˈfɑːðə] vs [ˈbɒðə].", accents: ["genam", "canadian"] },
+    { id: "c23", title: "Mary–marry–merry merger", phoneme: "[ɛɹ]", example: "the three words sound the same", explain: "RP has three different vowels: Mary [ˈmeəri], marry [ˈmæri], merry [ˈmeri]. Here all three have [ɛ].", accents: ["genam", "canadian"] },
+    { id: "c24", title: "LOT unrounding", phoneme: "[ɑ]", example: "unrounded vowel in 'cot', 'stop'", explain: "LOT = the vowel of cot, stop. RP has rounded [ɒ]; GA has unrounded [ɑ].", accents: ["genam"] },
+
+    // Canadian
+    { id: "c41", title: "Canadian raising (PRICE)", phoneme: "[ʌɪ]", example: "raised before voiceless consonants: 'write' vs 'ride'", explain: "PRICE starts higher [ʌɪ] before voiceless consonants: write [rʌɪt], but ride [raɪd].", accents: ["canadian"] },
+    { id: "c42", title: "Canadian raising (MOUTH)", phoneme: "[ʌʊ]", example: "raised before voiceless consonants: 'about', 'out'", explain: "MOUTH starts higher [ʌʊ] before voiceless consonants: out [ʌʊt], but loud [laʊd].", accents: ["canadian"] },
+    { id: "c43", title: "Cot–caught merger", phoneme: "one vowel", example: "'cot' and 'caught' sound the same", explain: "LOT (cot) and THOUGHT (caught) have one vowel. RP keeps them apart: cot [kɒt], caught [kɔːt].", accents: ["canadian", "scottish"] },
+    { id: "c48b", title: "TRAP retraction (Canadian Shift)", phoneme: "[a]", example: "'cat' with a lower, more back vowel", explain: "TRAP = the vowel of cat. It is pronounced lower and further back than GA [æ].", accents: ["canadian"] },
+
+    // Scottish
+    { id: "c25", title: "Velar fricative", phoneme: "[x]", example: "'loch', 'dreich'", explain: "A voiceless velar fricative, like Russian [х]. RP has no such sound: loch [lɒk].", accents: ["scottish"] },
+    { id: "c26", title: "Tapped or trilled /r/", phoneme: "[ɾ] / [r]", example: "'girl', 'car'", explain: "/r/ is a tap [ɾ] (one quick strike of the tongue) or a trill [r], close to Russian [р].", accents: ["scottish"] },
+    { id: "c27", title: "Monophthongal FACE", phoneme: "[eː]", example: "'gate', 'face'", explain: "FACE = the vowel of day, gate. A pure long vowel [eː] instead of the RP diphthong [eɪ].", accents: ["scottish", "irish"] },
+    { id: "c28", title: "Monophthongal GOAT", phoneme: "[oː]", example: "'boat', 'goat'", explain: "GOAT = the vowel of go, boat. A pure long vowel [oː] instead of the RP diphthong [əʊ].", accents: ["scottish", "irish"] },
+    { id: "c29", title: "FOOT–GOOSE merger", phoneme: "[ʉ]", example: "'pull' and 'pool' sound the same", explain: "FOOT (put, pull) and GOOSE (pool, food) have one vowel [ʉ]. RP keeps them apart: pull [pʊl], pool [puːl].", accents: ["scottish"] },
+    { id: "c30", title: "Wh–w distinction", phoneme: "[ʍ] vs [w]", example: "'which' vs 'witch'", explain: "which starts with voiceless [ʍ], witch with voiced [w]. In RP both start with [w].", accents: ["scottish", "irish"] },
+    { id: "c31", title: "Scottish Vowel Length Rule", phoneme: "SVLR", example: "'tied' long vs 'tide' short", explain: "Vowel length depends on what follows: a vowel is long at the end of a morpheme and before [v ð z r]. tied (tie + d) has a long vowel, tide a short one.", accents: ["scottish"] },
+    { id: "c32", title: "NURSE vowels kept apart before /r/", phoneme: "[ɪ] / [ʌ]", example: "'bird' [bɪɾd], 'hurt' [hʌɾt]", explain: "NURSE = the vowel of bird, hurt. RP has one vowel [ɜː]; here different vowels followed by /r/: bird [bɪɾd], hurt [hʌɾt].", accents: ["scottish"] },
+
+    // Australian and New Zealand
+    { id: "c33", title: "High Rising Terminal", phoneme: "High Rise", example: "rising tone on statements", explain: "Statements end with a High Rise, as if they were questions. It checks that the listener is following.", accents: ["australian", "nz"] },
+    { id: "c63", title: "Central START", phoneme: "[ɐː]", example: "'car', 'park'", explain: "START = the vowel of car, park. RP has a back vowel [ɑː]; here it is central [ɐː].", accents: ["australian", "nz"] },
+
+    // Irish
+    { id: "c49", title: "Dental plosives for TH", phoneme: "[t̪] / [d̪]", example: "'think', 'this'", explain: "/θ/ and /ð/ are pronounced as stops with the tongue against the teeth: think [t̪ɪŋk], this [d̪ɪs]. There is no friction, unlike RP.", accents: ["irish"] },
+    { id: "c50", title: "Clear /l/ in all positions", phoneme: "[l]", example: "'milk', 'full'", explain: "/l/ is clear everywhere, also at the end of a word: full [fʊl]. RP has dark [ɫ] there.", accents: ["irish"] },
+    { id: "c51", title: "Schwa epenthesis", phoneme: "[ə]", example: "'film' [ˈfɪləm]", explain: "An extra [ə] is inserted between two consonants such as /l/ and /m/: film [ˈfɪləm].", accents: ["irish"] },
+
+    // New Zealand
+    { id: "c57", title: "KIT centralization", phoneme: "[ə]", example: "'fish and chips' like 'fush and chups'", explain: "KIT = the vowel of fish, sit. It moves to the centre, close to [ə].", accents: ["nz"] },
+    { id: "c58", title: "NEAR–SQUARE merger", phoneme: "[iə]", example: "'cheer' and 'chair' sound the same", explain: "NEAR (cheer) and SQUARE (chair) have one vowel [iə].", accents: ["nz"] },
+    { id: "c59", title: "DRESS raising", phoneme: "[e̝]", example: "'pen' sounds close to 'pin' to outsiders", explain: "DRESS = the vowel of pen, bed. It is higher (closer) than RP [e]: [e̝].", accents: ["nz"] },
+    { id: "c60", title: "TRAP raising", phoneme: "[ɛ]", example: "'cat' sounds close to 'ket'", explain: "TRAP = the vowel of cat. It is higher than RP [æ]: [ɛ].", accents: ["nz"] },
+    { id: "c61", title: "NURSE fronting and rounding", phoneme: "[ɵː]", example: "'bird', 'nurse'", explain: "NURSE = the vowel of bird, nurse. Fronted and rounded [ɵː] instead of the RP central unrounded [ɜː].", accents: ["nz"] }
+];
+
+const KEY = "cherdak-englishes:v1";
+const byId = Object.fromEntries(featuresData.map(f => [f.id, f]));
+const accName = id => ACCENTS.find(a => a.id === id).name;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const ipa = s => esc(s).replace(/\[([^\]]+)\]/g, '<span class="ipa">[$1]</span>');
+const listJoin = arr => arr.length < 2 ? arr.join("") : arr.slice(0, -1).join(", ") + " and " + arr[arr.length - 1];
+
+let S, selected = null, lastPlaced = null;
+
+function fresh() {
+  const order = featuresData.map(f => f.id);
+  for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+  return { order, placed: {}, tried: {}, hints: {}, misses: 0 };
+}
+function load() {
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if (s && Array.isArray(s.order) && s.order.length === featuresData.length && s.order.every(id => byId[id])) return s;
+  } catch (e) {}
+  return fresh();
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+const $ = id => document.getElementById(id);
+const pool = $("pool"), zones = $("zones"), fb = $("feedback");
+
+function remaining() { return S.order.filter(id => !S.placed[id]); }
+function firstTry() { return Object.keys(S.placed).filter(id => !(S.tried[id] || []).length && !S.hints[id]).length; }
+
+function setFeedback(kind, label, html, extra) {
+  fb.className = "feedback" + (kind ? " " + kind : "");
+  fb.innerHTML = `<span class="fb-label">${label}</span><span class="fb-text">${html}</span>` + (extra || "");
+  const hb = $("hintBtn"); if (hb) hb.addEventListener("click", giveHint);
+}
+function idleFeedback() {
+  if (selected) setFeedback("", "Your move", `Now choose an accent for <b>${esc(byId[selected].title)}</b>.`);
+  else if (remaining().length) setFeedback("", "Your move", "Choose a feature card on the left.");
+}
+
+function renderPool() {
+  const ids = remaining();
+  $("leftN").textContent = ids.length ? ids.length + " left" : "";
+  if (!ids.length) { pool.innerHTML = `<li class="pool-empty">All cards are sorted.</li>`; return; }
+  pool.innerHTML = ids.map(id => {
+    const f = byId[id], tried = S.tried[id] || [];
+    return `<li><button type="button" class="fcard${id === selected ? " selected" : ""}" data-id="${id}" draggable="true" aria-pressed="${id === selected}">
+      <span class="tag-sel" aria-hidden="true">Selected</span>
+      <span class="t">${esc(f.title)}</span>
+      <span class="ph">${esc(f.phoneme)}</span>
+      <span class="ex">${ipa(f.example)}</span>
+      <span class="more">
+        <span class="explain">${ipa(f.explain)}</span>
+        ${tried.length ? `<span class="tried">Not typical of ${esc(listJoin(tried.map(accName)))}.</span>` : ""}
+        <span class="cue">Now choose an accent.</span>
+      </span>
+    </button></li>`;
+  }).join("");
+}
+
+function renderZones() {
+  const tried = selected ? (S.tried[selected] || []) : [];
+  const hint = selected ? S.hints[selected] : null;
+  zones.innerHTML = ACCENTS.map((a, i) => {
+    const ids = S.order.filter(id => S.placed[id] === a.id);
+    const cls = ["zone", selected ? "armed" : "", tried.includes(a.id) ? "tried" : "", hint === a.id ? "hinted" : ""].join(" ");
+    return `<div class="${cls}" data-zone="${a.id}">
+      <button type="button" class="zone-head" data-zone="${a.id}" ${selected ? "" : 'tabindex="-1"'} aria-label="${selected ? "Place the card in " : ""}${esc(a.name)}, ${ids.length} cards">
+        <span class="znum" aria-hidden="true">${i + 1}</span>
+        <span class="zname">${esc(a.name)}</span>
+        <span class="zmeta"><span>${esc(a.meta)}</span><span>${ids.length}</span></span>
+      </button>
+      <div class="zbody">
+        ${selected ? `<div class="zhint">${tried.includes(a.id) ? "Already tried" : "Place here"}</div>` : ""}
+        ${ids.map(id => {
+          const f = byId[id], others = f.accents.filter(x => x !== a.id).map(accName);
+          return `<details class="chip${id === lastPlaced && a.id === S.placed[id] ? " new" : ""}"><summary>${esc(f.title)}</summary>
+            <div class="cbody"><span class="ph">${esc(f.phoneme)}</span><span class="explain">${ipa(f.explain)}</span>
+            ${others.length ? `<span class="also">Also typical of ${esc(listJoin(others))}.</span>` : `<span class="also">Typical of this accent only.</span>`}</div></details>`;
+        }).join("")}
+        ${!selected && !ids.length ? `<div class="zhint">No cards yet</div>` : ""}
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function renderBar() {
+  const bar = $("placebar");
+  if (!selected) { bar.classList.remove("on"); document.body.classList.remove("has-bar"); return; }
+  const tried = S.tried[selected] || [], hint = S.hints[selected];
+  $("pbTitle").textContent = byId[selected].title;
+  $("pbGrid").innerHTML = ACCENTS.map((a, i) => `<button type="button" class="pb-btn${tried.includes(a.id) ? " tried" : ""}${hint === a.id ? " hinted" : ""}" data-zone="${a.id}">${esc(a.short)}</button>`).join("");
+  bar.classList.add("on");
+  document.body.classList.toggle("has-bar", getComputedStyle(bar).display !== "none");
+}
+
+function renderStats() {
+  const n = Object.keys(S.placed).length, total = featuresData.length;
+  $("scoreN").textContent = n; $("totalN").textContent = total;
+  $("bar").style.width = (n / total * 100) + "%";
+  $("barWrap").setAttribute("aria-valuemax", total); $("barWrap").setAttribute("aria-valuenow", n);
+  $("firstN").textContent = firstTry();
+  $("missN").textContent = S.misses;
+}
+
+function renderResult() {
+  const box = $("result"), total = featuresData.length, n = Object.keys(S.placed).length;
+  document.querySelector(".board").classList.toggle("done", n >= total);
+  if (n < total) { box.hidden = true; return; }
+  const ft = firstTry(), pct = Math.round(ft / total * 100);
+  const hard = S.order.filter(id => (S.tried[id] || []).length >= 2 || S.hints[id]);
+  box.innerHTML = `<h2>All ${total} features are sorted</h2>
+    <div class="result-stats">
+      <div class="stat"><span>Correct on the first try</span><b>${ft} / ${total}</b></div>
+      <div class="stat"><span>First-try accuracy</span><b>${pct}%</b></div>
+      <div class="stat warn"><span>Mistakes</span><b>${S.misses}</b></div>
+    </div>
+    ${hard.length ? `<div class="hard"><b>Worth reviewing.</b> These features took several attempts or a hint. Open them in the accent zones below.<ul>${hard.map(id => `<li>${esc(byId[id].title)} — ${esc(listJoin(byId[id].accents.map(accName)))}</li>`).join("")}</ul></div>` : ""}
+    <div class="result-actions"><button class="btn btn-primary" type="button" id="againBtn">Play again</button></div>`;
+  box.hidden = false;
+  $("againBtn").addEventListener("click", newGame);
+}
+
+function render() { renderPool(); renderZones(); renderBar(); renderStats(); renderResult(); measure(); }
+
+function measure() { document.documentElement.style.setProperty("--status-h", $("status").offsetHeight + "px"); }
+
+function select(id, focus) {
+  selected = id && !S.placed[id] ? id : null;
+  render(); idleFeedback();
+  if (selected) {
+    const el = pool.querySelector(`[data-id="${selected}"]`);
+    if (el) { if (focus) el.focus({ preventScroll: true }); el.scrollIntoView({ block: "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); }
+  }
+}
+
+function place(zoneId) {
+  if (!selected) return;
+  const id = selected, f = byId[id], a = ACCENTS.find(x => x.id === zoneId);
+  if (f.accents.includes(zoneId)) {
+    S.placed[id] = zoneId; lastPlaced = id; save();
+    const others = f.accents.filter(x => x !== zoneId).map(accName);
+    const next = remaining()[0] || null;
+    selected = next;
+    render();
+    const z = zones.querySelector(`.zone[data-zone="${zoneId}"]`); if (z) z.classList.add("flash-good");
+    if (next) {
+      const el = pool.querySelector(`[data-id="${next}"]`);
+      if (el) { el.focus({ preventScroll: true }); el.scrollIntoView({ block: "nearest" }); }
+    }
+    setFeedback("good", "Correct", `<b>${esc(f.title)}</b> is typical of ${esc(a.name)}. ` + (others.length ? `It is also typical of ${esc(listJoin(others))}.` : `It is not typical of the other accents here.`) + (next ? " The next card is open." : ""));
+    if (!next) { $("result").scrollIntoView({ block: "center" }); fb.className = "feedback good"; }
+  } else {
+    S.tried[id] = S.tried[id] || [];
+    if (!S.tried[id].includes(zoneId)) S.tried[id].push(zoneId);
+    S.misses++; save();
+    render();
+    const card = pool.querySelector(`[data-id="${id}"]`);
+    if (card) { card.classList.add("shake"); card.focus({ preventScroll: true }); setTimeout(() => card.classList.remove("shake"), 450); }
+    const z = zones.querySelector(`.zone[data-zone="${zoneId}"]`); if (z) z.classList.add("flash-bad");
+    const n = S.tried[id].length;
+    const canHint = n >= 2 && !S.hints[id];
+    setFeedback("warn", "Not this one", `<b>${esc(f.title)}</b> is not typical of ${esc(a.name)}. Read the description again and try another accent.`,
+      canHint ? `<button class="btn btn-ghost btn-sm" id="hintBtn" type="button">Show a hint</button>` : "");
+  }
+}
+
+function giveHint() {
+  if (!selected) return;
+  const f = byId[selected];
+  S.hints[selected] = f.accents[Math.floor(Math.random() * f.accents.length)]; save();
+  render();
+  setFeedback("", "Hint", `One accent where this feature is typical is highlighted in green: <b>${esc(accName(S.hints[selected]))}</b>.`);
+  const z = zones.querySelector(".zone.hinted"); if (z) z.scrollIntoView({ block: "nearest" });
+}
+
+function newGame() {
+  if (Object.keys(S.placed).length && Object.keys(S.placed).length < featuresData.length && !confirmReset()) return;
+  S = fresh(); selected = null; lastPlaced = null; save(); render(); idleFeedback();
+  $("game").scrollIntoView({ block: "start" });
+}
+let resetArmed = false, resetTimer;
+function confirmReset() {
+  if (resetArmed) { resetArmed = false; clearTimeout(resetTimer); $("newBtn").lastChild.textContent = " New game"; return true; }
+  resetArmed = true;
+  $("newBtn").lastChild.textContent = " Click again to restart";
+  resetTimer = setTimeout(() => { resetArmed = false; $("newBtn").lastChild.textContent = " New game"; }, 3000);
+  return false;
+}
+
+/* Events */
+pool.addEventListener("click", e => {
+  const c = e.target.closest(".fcard"); if (!c) return;
+  select(c.dataset.id === selected ? null : c.dataset.id, true);
+});
+zones.addEventListener("click", e => {
+  if (e.target.closest("summary") || e.target.closest(".cbody")) return;
+  const z = e.target.closest("[data-zone]"); if (z && selected) place(z.dataset.zone);
+});
+$("pbGrid").addEventListener("click", e => { const b = e.target.closest("[data-zone]"); if (b) place(b.dataset.zone); });
+$("pbClose").addEventListener("click", () => select(null));
+
+pool.addEventListener("dragstart", e => {
+  const c = e.target.closest(".fcard"); if (!c) return;
+  e.dataTransfer.setData("text/plain", c.dataset.id); e.dataTransfer.effectAllowed = "move";
+  if (selected !== c.dataset.id) { selected = c.dataset.id; renderZones(); renderBar(); idleFeedback(); pool.querySelectorAll(".fcard").forEach(x => x.classList.toggle("selected", x.dataset.id === selected)); }
+  c.classList.add("dragging");
+});
+pool.addEventListener("dragend", e => { const c = e.target.closest(".fcard"); if (c) c.classList.remove("dragging"); zones.querySelectorAll(".over").forEach(z => z.classList.remove("over")); });
+zones.addEventListener("dragover", e => { const z = e.target.closest(".zone"); if (!z || !selected) return; e.preventDefault(); zones.querySelectorAll(".over").forEach(x => x !== z && x.classList.remove("over")); z.classList.add("over"); });
+zones.addEventListener("dragleave", e => { const z = e.target.closest(".zone"); if (z && !z.contains(e.relatedTarget)) z.classList.remove("over"); });
+zones.addEventListener("drop", e => { const z = e.target.closest(".zone"); if (!z) return; e.preventDefault(); const id = e.dataTransfer.getData("text/plain"); if (id && !S.placed[id]) { selected = id; place(z.dataset.zone); } });
+
+document.addEventListener("keydown", e => {
+  if (e.target.matches("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key === "Escape" && selected) { select(null); return; }
+  const n = parseInt(e.key, 10);
+  if (selected && n >= 1 && n <= ACCENTS.length) { e.preventDefault(); place(ACCENTS[n - 1].id); }
+});
+
+$("helpBtn").addEventListener("click", () => {
+  const h = $("help"), open = h.hidden; h.hidden = !open; $("helpBtn").setAttribute("aria-expanded", String(open));
+});
+$("newBtn").addEventListener("click", newGame);
+$("themeBtn").addEventListener("click", () => {
+  const root = document.documentElement;
+  const cur = root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const nxt = cur === "dark" ? "light" : "dark";
+  root.dataset.theme = nxt; try { localStorage.setItem("cherdak-theme", nxt); } catch (e) {}
+});
+window.addEventListener("resize", () => { measure(); renderBar(); });
+
+S = load();
+render(); idleFeedback();
+</script>
+</body></html>
